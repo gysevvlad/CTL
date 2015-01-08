@@ -57,7 +57,7 @@ iter1 и iter2 автоматически станут ссылаться дру
 	
 Проход в одну сторону.
 
-> Пример: <https://github.com/gysevvlad/CTL/blob/master/iterator_test.c>
+> Пример: <https://github.com/gysevvlad/CTL/blob/master/iterator_example.c>
 
 > Исходник: <https://github.com/gysevvlad/CTL/blob/master/iterator.h>
 

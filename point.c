@@ -15,9 +15,9 @@ void point_init( point_t *p, int x, int y, int z ) {
 	p-> z = z;
 }
 
-void point_destroy( point_t **point ) {
-	free( *point );
-	*point = NULL;
+void point_destroy( point_t **p ) {
+	free( *p );
+	*p = NULL;
 }
 
 void point_printf( point_t *p ) {
@@ -25,9 +25,6 @@ void point_printf( point_t *p ) {
 }
 
 point_t point_factory( int x, int y, int z ) {
-	point_t p;
-	p. x = x;
-	p. y = y;
-	p. z = z;
+	point_t p = { x, y, z };
 	return p;
 }

@@ -30,7 +30,11 @@ iterator_##data_t* iter_create_##data_t(\
 	iterator_##data_t *iter;\
 	iter = malloc( sizeof( iterator_##data_t ) );\
 	iter-> next = next;\
+	if ( next != NULL )\
+		next-> prev = iter;\
 	iter-> prev = prev;\
+	if ( prev != NULL )\
+		prev-> next = iter;\
 	iter-> data = data;\
 	return iter;\
 }\

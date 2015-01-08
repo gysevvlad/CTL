@@ -8,9 +8,11 @@ C Template Library
 ======
 
 На данный момент библиотека включает след. типы:
-  - iterator
+  - [iterator][]
   - pair
   - linked_list
   - map
+
+[iterator]: https://github.com/gysevvlad/CTL/blob/master/ITERATOR.md
 
 

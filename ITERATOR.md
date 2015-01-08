@@ -2,7 +2,10 @@ iterator.h
 ==========
 
 iterator - базовый элемент контейнеров. Эта структура содержит два указателя 
-(на следующий и предыдущий iterator) и поле data. 
+(на следующий и предыдущий iterator) и поле data. В качестве шаблона можно 
+использовать как структуру, так и указатель на структуру. Подробнее [здесь][].
+
+[здесь]:https://github.com/gysevvlad/CTL/blob/master/test/iterator_test.c
 
 Типы
 ----
@@ -28,6 +31,13 @@ iterator - базовый элемент контейнеров. Эта стру
   
 Уничтожение iterator'a. Значение указателя изменится на NULL.
 
+    void remove( iterator* )
+
+Обнуление iterator'a.
+
+    void init( iterator*, iterator*, iterator*, data )
+    
+Инициализация iterator'а на уже выделенной памяти.
 
 Для удобства, из названий функций и типов были исключены те части, 
 которые определяются типом. Т.е.: 
@@ -60,6 +70,8 @@ iter1 и iter2 автоматически станут ссылаться дру
 > Пример: <https://github.com/gysevvlad/CTL/blob/master/examples/iterator_example.c>
 
 > Исходник: <https://github.com/gysevvlad/CTL/blob/master/include/iterator.h>
+
+> Unit-test: <https://github.com/gysevvlad/CTL/blob/master/test/iterator_test.c>
 
 
 

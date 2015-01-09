@@ -16,4 +16,13 @@ C Template Library
 
 [iterator]: https://github.com/gysevvlad/CTL/blob/master/ITERATOR.md
 
+В планах:
+  - node
+  - tree node
+  - vector
+  - binary search tree
+  - treap (декартово дерево)
+  - lazy list
+  - lazy vector
+
 

@@ -3,7 +3,6 @@
 
 #include <malloc.h>
 #include <stddef.h>
-
 /*
 	- iterator* create( iterator*, iterator*, data )
 	- void init( iterator*, iterator*, iterator*, data )
@@ -62,21 +61,10 @@ iterator_##data_t* iter_create_##data_t(\
 	return iter;\
 }\
 /*_____________________________________________________________________________
-	Инициализация iterator'а с возвратом на стек.
-*/\
-iterator_##data_t iter_factory_##data_t(\
-	iterator_##data_t *next,\
-	iterator_##data_t *prev,\
-	data_t data) {\
-	iterator_##data_t iter;\
-	iter_init_##data_t( &iter, next, prev, data );\
-	return iter;\
-}\
-/*_____________________________________________________________________________
 	Удалить iterator.
 */\
 void iter_destroy_##data_t( iterator_##data_t **iter ) {\
-	if ( *iter == NULL ) return;\
+	if ( iter == NULL ) return;\
 	iter_remove_##data_t ( *iter );\
 	free(*iter);\
 	*iter = NULL;\

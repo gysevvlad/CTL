@@ -1,12 +1,9 @@
 
 #include "linked_list.h"
 #include "point.h"
+#include "test.h"
 
 DECLARE_LINKED_LIST( point_t )
-
-#define test( func ) if ( func##_test() != 1 ) { printf("Error: %s\n", #func); exit(-1); } else printf("OK: %s\n", #func)
-#define checkNull( field ) if ( field != NULL ) return -1
-#define checkNoNull( field ) if ( field == NULL ) return -1
 
 int init_test();
 int create_test();

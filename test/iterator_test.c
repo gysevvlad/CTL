@@ -3,149 +3,103 @@
 
 #include "iterator.h"
 #include "point.h"
+#include "test.h"
 
 DECLARE_ITERATOR( point_t )
 
-DECLARE_ITERATOR( point_ptr )
-
-void test_iter_point_t(); 
-void test_iter_point_ptr();
+int remove_test();
+int init_test();
+int create_test();
+int destroy_test();
 
 void main() {
-	test_iter_point_t();
-	test_iter_point_ptr();
-	printf("***   OK!   ***\n");
+	test( init );
+	test( remove );
+	test( create );
+	test( destroy );
+	printf("%s\n", "*** OK ***");
 }
 
-void test_iter_point_ptr() {
-	iterator_point_ptr *iter1 = NULL,  *iter2 = NULL, *iter3 = NULL,
-					it, it1, it2, it3;
+int init_test() {
+	iterator_point_t it1, it2, it3, *it4_ptr = NULL;
 
-	#define iter_create_p iter_create_point_ptr
-	#define iter_destroy_p iter_destroy_point_ptr
-	#define iter_factory_p iter_factory_point_ptr
-	#define iter_init_p iter_init_point_ptr
-	#define iter_remove_p iter_remove_point_ptr
+	iter_init_point_t( &it1, NULL, NULL, point_factory( 1, 2, 3 ) );
+	iter_init_point_t( &it2, &it1, NULL, point_factory( 4, 5, 6 ) );
+	iter_init_point_t( &it3, &it2, NULL, point_factory( 7, 8, 9 ) );
 
-	iter1 = iter_create_p( NULL, NULL, point_create( 1, 2, 3));
-	iter2 = iter_create_p( iter1, NULL, point_create( 4, 5, 6));
-	iter3 = iter_create_p( iter2, NULL, point_create( 7, 8, 9));
+	checkEq( it1.data.x, 1); checkEq( it1.data.y, 2); checkEq( it1.data.z, 3);
+	checkEq( it1.prev, &it2 ); 
+	checkEq( it2.next, &it1 );
+	checkEq( it2.prev, &it3 );
+	checkEq( it3.next, &it2 );
 
-	if ( iter1 == NULL || iter1-> data-> x != 1 ||
-		iter1-> data-> y != 2 || iter1-> data-> z != 3 ||
-		iter2-> next != iter1 ||
-		iter2-> prev != iter3 ||
-		iter1-> prev != iter2 ||
-		iter3-> next != iter2) {
-		printf ( "Error: iter_create.\n" );
-		exit(-1);		
-	}
+	iter_init_point_t( it4_ptr, NULL, NULL, point_factory( 0, 0, 0 ) );
 
-	point_destroy( &iter2-> data );
-	iter_destroy_p( &iter2 );
+	it4_ptr = (iterator_point_t*) malloc( sizeof( iterator_point_t ) );
+	iter_init_point_t( it4_ptr, &it3, &it1, point_factory( 10, 11, 12 ) );
+	checkEq( it1.next, it4_ptr );
+	checkEq( it4_ptr-> next, &it3 );
+	checkEq( it4_ptr-> prev, &it1 );
+	free( it4_ptr );
 
-	if ( iter2 != NULL || 
-		iter1-> prev != iter3 || iter3-> next != iter1 ) {
-		printf ( "Error: iter_destroy.\n" );
-		exit(-1);			
-	}
-
-	it = iter_factory_p( NULL, NULL, point_create( 1, 2, 3));
-
-	if (it.data-> x != 1 || it.data-> y != 2 || it.data-> z != 3) {
-		printf ( "Error: iter_factory.\n" );
-		exit(-1);
-	}
-
-	iter_init_p( &it1, NULL, NULL, point_create( 1, 2, 3 ));
-	iter_init_p( &it2, &it1, NULL, point_create( 1, 2, 3 ));
-	iter_init_p( &it3, &it2, NULL, point_create( 1, 2, 3 ));
-
-	if ( it1.data-> x != 1 || it1.data-> y != 2 || it1.data-> z != 3 ||
-		it2.next != &it1 ||
-		it2.prev != &it3 ||
-		it1.prev != &it2 ||
-		it3.next != &it2) {
-		printf ( "Error: iter_init.\n" );
-		exit(-1);	
-	}
-
-	point_destroy( &it2.data );
-	iter_remove_p( &it2 );
-
-	if ( it3.next != &it1 || it1.prev != &it3 ) {
-		printf ( "Error: iter_remove.\n" );
-		exit(-1);		
-	}
-
-	point_destroy( &iter1-> data );
-	point_destroy( &iter3-> data );
-	point_destroy( &it1.data );
-	point_destroy( &it3.data );
-	iter_destroy_p( &iter1 );
-	iter_destroy_p( &iter3 );
+	return 1;
 }
 
-void test_iter_point_t() {
-	iterator_point_t *iter1 = NULL,  *iter2 = NULL, *iter3 = NULL,
-					it, it1, it2, it3;
+int remove_test() {
+	iterator_point_t it1, it2, it3;
 
-	#define iter_create iter_create_point_t
-	#define iter_destroy iter_destroy_point_t
-	#define iter_factory iter_factory_point_t
-	#define iter_init iter_init_point_t
-	#define iter_remove iter_remove_point_t
+	iter_init_point_t( &it1, NULL, NULL, point_factory( 1, 2, 3 ) );
+	iter_init_point_t( &it2, &it1, NULL, point_factory( 4, 5, 6 ) );
+	iter_init_point_t( &it3, &it2, NULL, point_factory( 7, 8, 9 ) );
 
-	iter1 = iter_create( NULL, NULL, point_factory( 1, 2, 3));
-	iter2 = iter_create( iter1, NULL, point_factory( 4, 5, 6));
-	iter3 = iter_create( iter2, NULL, point_factory( 7, 8, 9));
+	iter_remove_point_t( NULL );
 
-	if ( iter1 == NULL || iter1-> data.x != 1 ||
-		iter1-> data.y != 2 || iter1-> data.z != 3 ||
-		iter2-> next != iter1 ||
-		iter2-> prev != iter3 ||
-		iter1-> prev != iter2 ||
-		iter3-> next != iter2) {
-		printf ( "Error: iter_create.\n" );
-		exit(-1);		
-	}
-	
-	iter_destroy( &iter2 );
+	iter_remove_point_t( &it2 );
+	checkEq( it2.next, NULL );
+	checkEq( it2.prev, NULL );
+	checkEq( it2.data.x, 0 );
+	checkEq( it2.data.y, 0 );
+	checkEq( it2.data.z, 0 );
+	checkEq( it1.prev, &it3 );
+	checkEq( it3.next, &it1 );
 
-	if ( iter2 != NULL || 
-		iter1-> prev != iter3 || iter3-> next != iter1 ) {
-		printf ( "Error: iter_destroy.\n" );
-		exit(-1);			
-	}
-
-	it = iter_factory( NULL, NULL, point_factory( 1, 2, 3));
-
-	if (it.data.x != 1 || it.data.y != 2 || it.data.z != 3) {
-		printf ( "Error: iter_factory.\n" );
-		exit(-1);
-	}
-
-	iter_init( &it1, NULL, NULL, point_factory( 1, 2, 3));
-	iter_init( &it2, &it1, NULL, point_factory( 1, 2, 3));
-	iter_init( &it3, &it2, NULL, point_factory( 1, 2, 3));
-
-	if ( it1.data.x != 1 || it1.data.y != 2 || it1.data.z != 3 ||
-		it2.next != &it1 ||
-		it2.prev != &it3 ||
-		it1.prev != &it2 ||
-		it3.next != &it2) {
-		printf ( "Error: iter_init.\n" );
-		exit(-1);	
-	}
-
-	iter_remove( &it2 );
-
-	if ( it3.next != &it1 || it1.prev != &it3 ) {
-		printf ( "Error: iter_remove.\n" );
-		exit(-1);		
-	}
-
-	iter_destroy( &iter1 );
-	iter_destroy( &iter3 );
+	return 1;
 }
 
+int create_test() {
+	iterator_point_t it1, *it2_ptr = NULL, it3;
+
+	iter_init_point_t( &it1, NULL, NULL, point_factory( 1, 2, 3 ) );
+	it2_ptr = iter_create_point_t( &it1, NULL, point_factory ( 4, 5, 6 ) );
+	iter_init_point_t( &it3, it2_ptr, NULL, point_factory( 7, 8, 9 ) );
+	checkNoNull( it2_ptr );
+	checkEq( it1.prev, it2_ptr );
+	checkEq( it3.next, it2_ptr );
+	checkEq( it2_ptr-> data.x, 4 ); 
+	checkEq( it2_ptr-> data.y, 5 ); 
+	checkEq( it2_ptr-> data.z, 6 );
+	checkEq( it2_ptr-> next, &it1 );
+	checkEq( it2_ptr-> prev, &it3 );
+	free( it2_ptr );
+
+	return 1;
+}
+
+int destroy_test() {
+	iterator_point_t it1, *it2_ptr = NULL, it3;
+
+	iter_destroy_point_t( NULL );
+	iter_destroy_point_t( &it2_ptr );
+
+	iter_init_point_t( &it1, NULL, NULL, point_factory( 1, 2, 3 ) );
+	it2_ptr = (iterator_point_t*) malloc( sizeof( iterator_point_t ) );
+	it2_ptr-> data = point_factory( 4, 5, 6 );
+	it2_ptr-> next = &it1;
+	iter_init_point_t( &it3, it2_ptr, NULL, point_factory( 7, 8, 9 ) );
+	iter_destroy_point_t( &it2_ptr );
+	checkNull( it2_ptr );
+	checkEq( it1.prev, &it3 );
+	checkEq( it3.next, &it1 );
+
+	return 1;
+}

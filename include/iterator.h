@@ -6,7 +6,6 @@
 /*
 	- iterator* create( iterator*, iterator*, data )
 	- void init( iterator*, iterator*, iterator*, data )
-	- iterator factory( iterator*, iterator*, data )
 	- void remove( iterator* )
 	- void destroy( iterator** )
 */

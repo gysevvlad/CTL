@@ -5,7 +5,8 @@
       * отловил 2 null pointer'a
       * функция factory удалена ( признана неправильной и бесполезной )
    3. добавлен pair.h
-   4. написан unit-test для pair'а
+   4. добавлен PAIR.md 
+   5. написан unit-test для pair'а
       * отловил 1 null pointer
 
 

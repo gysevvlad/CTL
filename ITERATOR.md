@@ -23,10 +23,6 @@ iterator - базовый элемент контейнеров. Эта стру
 
 Создание iterator'а в куче.
 
-    iterator factory( iterator* next, iterator* prev, data_t data )
-  
-Создание iterator'a с возвращением на стек.
-
     void destroy( iterator** )
   
 Уничтожение iterator'a. Значение указателя изменится на NULL.

@@ -8,7 +8,6 @@
 	- iterator* create( iterator*, iterator*, data )
 	- iterator* new()
 	- void init( iterator*, iterator*, iterator*, data )
-	- iterator factory( iterator*, iterator*, data )
 	- void remove( iterator* )
 	- void destroy( iterator** )
 */
@@ -86,5 +85,9 @@ void iter_destroy_##data_t( iterator_##data_t **iter ) {\
 	*iter = NULL;\
 }\
 
+<<<<<<< HEAD
 
 #endif ITERATOR_H
+=======
+#endif ITERATOR_H
+>>>>>>> origin/master

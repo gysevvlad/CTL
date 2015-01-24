@@ -81,6 +81,14 @@ search_tree_node_create_##key_t##_##data_t( key_t key, data_t data, \
 }\
 \
 /*_____________________________________________________________________________
+	destroy search_tree_node
+*/\
+void search_tree_node_destroy_##key_t##_##data_t( \
+	search_tree_node_##key_t##_##data_t *node ) { \
+	free( node );\
+}\
+\
+/*_____________________________________________________________________________
 	add <key_t, data_t> to search_tree
 */\
 void search_tree_add_##key_t##_##data_t( search_tree_##key_t##_##data_t *tree,\
@@ -152,5 +160,68 @@ next:\
 		}\
 	}\
 }\
+\
+/*_____________________________________________________________________________
+	support function for delete search_tree_node
+*/\
+search_tree_node_rightmost_##key_t##_##data_t( \
+	search_tree_node_##key_t##_##data_t *root ) {\
+	while (root-> right != NULL)\
+		root = root-> right;\
+	return root-> key;\
+}\
+\
+/*_____________________________________________________________________________
+	delete search_tree_node
+*/\
+search_tree_node_##key_t##_##data_t* \
+search_tree_node_delete_##key_t##_##data_t( \
+	search_tree_node_##key_t##_##data_t *root,\
+	int (cmp) (key_t*, key_t*),\
+	key_t key ) {\
+	search_tree_node_##key_t##_##data_t *temp;\
+	int compare;\
+\
+	if ( root == NULL ) return NULL;\
+	compare = cmp( &key, &root-> key );\
+	if ( compare == 0) {\
+		if ( root-> left == NULL && root-> right == NULL ) {\
+			search_tree_node_destroy_##key_t##_##data_t( root );\
+			return NULL;\
+		}\
+		if ( root-> right == NULL && root-> left != NULL) {\
+			temp = root-> left;\
+			search_tree_node_destroy_##key_t##_##data_t( root );\
+			return temp;\
+		}\
+		if ( root-> left == NULL && root->right != NULL ) {\
+			temp = root-> right;\
+			search_tree_node_destroy_##key_t##_##data_t( root );\
+			return temp;\
+		}\
+		root-> key = search_tree_node_rightmost_##key_t##_##data_t( root-> left );\
+		root-> left = search_tree_node_delete_##key_t##_##data_t( \
+			root-> left, cmp, root-> key );\
+		return root;\
+	}\
+	if ( compare < 0 ) {\
+		root-> left = search_tree_node_delete_##key_t##_##data_t( root-> left, cmp, key );\
+		return root;\
+	}\
+	if ( compare > 0 ) {\
+		root-> right = search_tree_node_delete_##key_t##_##data_t( root-> right, cmp, key );\
+		return root;\
+	}\
+	return root;\
+}\
+\
+/*____________________________________________________________________________ 
+	delete
+*/\
+void search_tree_delete_##key_t##_##data_t( \
+	search_tree_##key_t##_##data_t *tree, key_t key ) {\
+	tree-> root = search_tree_node_delete_##key_t##_##data_t( tree-> root, tree-> cmp, key );\
+}\
+
 
 #endif

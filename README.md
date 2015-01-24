@@ -9,15 +9,13 @@ C Template Library
 На данный момент библиотека включает следующие стабильные модули:
   - [iterator][]
   - [pair][]
-
-Требуют доработки:
   - linked_list
   - map
+  - binary search tree 
 
 В планах:
   - node
   - tree node
-  - binary search tree 
   
 
 [iterator]: https://github.com/gysevvlad/CTL/blob/master/ITERATOR.md

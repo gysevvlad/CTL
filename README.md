@@ -14,8 +14,7 @@ C Template Library
   - binary search tree 
 
 В планах:
-  - node
-  - tree node
+  - декартово дерево
   
 
 [iterator]: https://github.com/gysevvlad/CTL/blob/master/ITERATOR.md

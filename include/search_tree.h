@@ -121,6 +121,36 @@ next:\
 	}\
 }\
 \
-
+/*_____________________________________________________________________________
+	find <key_t, data_t> to search_tree
+*/\
+search_tree_node_##key_t##_##data_t*\
+search_tree_node_find_##key_t##_##data_t( \
+	search_tree_##key_t##_##data_t *tree,\
+	key_t key) {\
+	search_tree_node_##key_t##_##data_t *root = tree-> root;\
+	int cmp;\
+	if ( root == NULL ) return NULL;\
+next:\
+	cmp = tree-> cmp( &key, &root-> key );\
+	if ( cmp == 0 ) \
+		return root;\
+	if ( cmp < 0 ) {\
+		if ( root-> left == NULL ) {\
+			return NULL;\
+		} else {\
+			root = root-> left;\
+			goto next;\
+		}\
+	}\
+	if ( cmp > 0 ) {\
+		if ( root-> right == NULL ) {\
+			return NULL;\
+		} else {\
+			root = root-> right;\
+			goto next;\
+		}\
+	}\
+}\
 
 #endif
